@@ -70,8 +70,6 @@ const body = document.body;
 
 let songIndex = 0;
 
-loadSong(songIndex);
-
 function loadSong(songIndex){
 
     cTime.innerText = "0:00";
