@@ -1,3 +1,47 @@
+// import fetch_songs from './queries'
+
+const titles = [], authors = [], urls = [], thumbnails = [];
+
+async function fetch_songs(){
+
+    const GET_SONGS_DATA = `query getSongs {
+        songs(order_by: {created_at: desc}) {
+            artist
+            created_at
+            duration
+            id
+            thumbnail
+            title
+            url
+        }
+        }`
+
+    const options = {
+        method: "post",
+        headers: {
+        "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+        query: GET_SONGS_DATA
+        })
+    };
+
+    await fetch("https://argon-music-database.herokuapp.com/v1/graphql", options)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                data.data.songs.map((song, index)=>{
+                    titles.push(song.title)
+                    authors.push(song.artist)
+                    urls.push(song.url)
+                    thumbnails.push(song.thumbnail)
+                })
+                console.log(titles, authors, urls, thumbnails)
+
+            });
+}
+fetch_songs();
+
 const musicContainer = document.getElementById('music-container');
 
 const prevBtn = document.getElementById('prev');
@@ -13,9 +57,6 @@ const title = document.getElementById('title');
 const cover = document.getElementById('cover');
 const author = document.getElementById('author');
 
-const songs = ['Color White', 'Pariah', 'Laude Lag Gaye' ];
-const singers = ['Parvaaz', 'Steven Wilson, Ninet Tayeb', 'BCS Ragasur'];
-
 const cTime = document.getElementById('current-time');
 const tTime = document.getElementById('total-time');
 const time = document.getElementById('time');
@@ -27,44 +68,53 @@ const imgShadow = document.getElementById('img-shadow');
 const body = document.body;
 
 
-let songIndex = 1;
+let songIndex = 0;
 
-loadSong(songs[songIndex]);
+loadSong(songIndex);
 
-function loadSong(song){
+function loadSong(songIndex){
+
     cTime.innerText = "0:00";
     tTime.innerText = "0:00";
-    title.innerText = song;
-    author.innerText = singers[songIndex];
-    audio.src = `audios/${song}.mp3`;
-    cover.src = `imgs/${song}.jpg`;
+    title.innerText = titles[songIndex];
+    author.innerText = authors[songIndex];
+    audio.src = urls[songIndex];
+    cover.src = thumbnails[songIndex];
+
 }
+
 function playSong(){
+
     musicContainer.classList.add('play');
     playBtn.querySelector('i.fas').classList.remove('fa-play');
     playBtn.querySelector('i.fas').classList.add('fa-pause');
 
     audio.play();
 }
+
 function pauseSong(){
+
     musicContainer.classList.remove('play');
     playBtn.querySelector('i.fas').classList.remove('fa-pause');
     playBtn.querySelector('i.fas').classList.add('fa-play');
 
     audio.pause();
 }
+
 function prevSong(){
-    songIndex= 1- songIndex;
-    loadSong(songs[songIndex]);
+
+    songIndex = songIndex == 0 ? titles.length-1 : songIndex-1;
+    loadSong(songIndex);
     musicContainer.classList.add('play');
     audio.play();
     
     playBtn.querySelector('i.fas').classList.remove('fa-play');
     playBtn.querySelector('i.fas').classList.add('fa-pause');
 }
+
 function nextSong(){
-    songIndex= 1- songIndex;
-    loadSong(songs[songIndex]);
+    songIndex = songIndex == titles.length-1 ? 0 : songIndex+1;
+    loadSong(songIndex);
     musicContainer.classList.add('play');
     audio.play();
 
@@ -81,6 +131,7 @@ function updateProgress(e){
     cTime.innerText = `${Math.floor(currentTime/60)}:${twoDig(Math.floor(currentTime%60))}`;
     tTime.innerText = `${Math.floor(duration/60)}:${twoDig(Math.floor(duration%60))}`;
 }
+
 function setProgress(e){
     const width = this.clientWidth;
     const clickX = e.offsetX;
@@ -105,46 +156,7 @@ function stateChange(){
     progress.classList.toggle('dark-mode');
     progressContainer.classList.toggle('dark-mode');
 
-    
-    /*if(checkBox.checked){
-        document.body.style.backgroundColor = "#b6ccf0";
-        document.body.color = "white";
-        checkBox1.style.backgroundColor = "#222831";
-        musicContainer.style.backgroundColor = "#ccddf5";
-        head.style.color = "black";
-        playBtn.style.background = "#b6ccf0";
-        imgShadow.style.borderColor = "#b6ccf0";
-        title.style.color = "black";
-        author.style.color = "black";
-        time.style.color = "black";
-
-    }else{/* dark mode 
-        document.body.style.backgroundColor = "#222831";
-        document.body.color = "white";
-        checkBox1.style.backgroundColor = "#b6ccf0";
-        musicContainer.style.backgroundColor = "#2d4059";
-        head.style.color = "white";
-        playBtn.style.background = "#222831";
-        imgShadow.style.borderColor = "#222831";
-        title.style.color = "white";
-        author.style.color = "white";
-        time.style.color = "white";
-        checkBox.pseudoStyle("before", "transform", "translateX(30px)");
-    }*/
 }
-function showCoords(event) {
-    var x = event.clientX;
-    var y = event.clientY;
-    var coords = "X coords: " + x + ", Y coords: " + y;
-    document.getElementById("demo").innerHTML = coords;
-  }
-function getOffset(el) {
-    const rect = el.getBoundingClientRect();
-    return {
-      left: rect.left + window.scrollX,
-      top: rect.top + window.scrollY
-    };
-  }
 
 playBtn.addEventListener('click', ()=>{
     const isPlaying = musicContainer.classList.contains('play');
