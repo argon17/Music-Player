@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/all.css">
+    <link rel="icon" type="image/ico" href="./webfonts/favicon.ico"/>
+</head>
+<body>
+    
+    <h1 id="h1">Music Player
+        <label>
+            <input type="checkbox" id="check" >
+            <span class="check" id="checkl"></span>
+        </label>
+    </h1>
+    <div id="music-container" class="music-container">
+        
+        <audio src="" id="audio"></audio>
+
+        <div class="img-container" id="img-container">
+            <img src="" alt="music-cover" id="cover">
+            <div class="img-shadow" id="img-shadow"></div>
+        </div>
+        <div class="music-info">
+            <h3 id="title"></h3>
+            <h6 id="author"></h6>
+            <div class="time" id="time">
+                <div id="current-time" class="ctime">0:00</div>
+                <div id="total-time" class="ttime">0:00</div>
+            </div>
+            <div class="progress-container" id="progress-container" onclick="showCoords(event)">
+                <div class="progress" id="progress"></div>
+                <div class="pointer" id="pointer" draggable="true" dropzone="progress-container"></div>
+            </div>
+        </div>
+        <div class="navigation">
+            <button id="prev" class="action-btn">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button id="play" class="action-btn">
+                <i class="fas fa-play"></i>
+            </button>
+            <button id="next" class="action-btn">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="./script.js"></script>
+</body>
+</html>

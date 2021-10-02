@@ -1,0 +1,231 @@
+@font-face{
+    font-family: Aileron;
+    src: url("../fonts/Aileron-Bold.otf") format("opentype");
+}
+@font-face{
+    font-family: Aileronl;
+    src: url("../fonts/Aileron-Light.otf") format("opentype");
+}
+*{
+    box-shadow: border-box;
+}
+body{
+    background-color: #b6ccf0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Aileron;
+    margin: 0;
+    cursor: context-menu;
+    transition: ease-in 0.5s;
+}
+
+.music-container{
+    background-color:  #ccddf5;
+    border-radius: 35px;
+    box-shadow: 0 20px 20px 0 rgba(122, 112, 112, 0.158);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 30px;
+    margin: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.img-container{
+    position: relative;
+    width: 150px;
+}
+
+/*.img-container::after{
+    content: '';
+    background-color: #cfd5f1;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 15px;
+    height: 15px;
+    transform: translate(-50%, 100px);
+}*/
+
+.img-container img{
+    border-radius: 50%;
+    width: inherit;
+    height: 150px;
+    position: relative;
+    top: 10px;
+    bottom: 30px;
+    left: 0;
+    animation: rotate 3s linear infinite;
+    
+
+    animation-play-state: paused;
+}
+
+.img-shadow{
+    border-radius: 50%;
+    top: 5px;
+    width: inherit;
+    height: 150px;
+    position: absolute;
+    left: -5px;
+    bottom: 30px;
+    border: 5px solid #b6ccf0;
+    box-shadow: 0 10px 20px 0 rgba(14, 12, 12, 0.158);
+}
+.img-shadow.dark-mode{
+    border-color: darkslategray;
+}
+.music-container.play .img-container img
+{
+    animation-play-state: running;
+}
+.music-container.dark-mode{
+    background-color: #2d4059;
+}
+
+@keyframes rotate{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(360deg);
+    }
+}
+.navigation{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.action-btn{
+    border: none;
+    margin: 15px;
+    outline: none;
+    background-color: transparent;
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+    color: slategray;
+}
+.music-info{
+    position: relative;
+    top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#title{ 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 0;
+}
+
+#title.dark-mode, h6.dark-mode, h1.dark-mode, .time.dark-mode{
+    color: lightslategray;
+}
+body.dark-mode{
+    background-color: #222831;
+    transition: ease-in 0.5s;
+}
+
+.progress-container{
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 10px 0;
+    height: 4px;
+    width: 100%;
+    display: flex;
+    
+}
+.progress-container.dark-mode{
+    background-color: lightslategray;
+}
+.progress{
+    background-color: rgb(70, 126, 161);
+    border-radius: 5px;
+    width: 0%;
+    height: 100%;
+}
+.pointer{
+    background-color: rgb(70, 126, 161);
+    border-radius: 5px;
+    width: 7px;
+    height: 7px;
+    transform: translate(-1.2px, -1.5px);
+}
+.progress.dark-mode{
+    background-color: lightsteelblue;
+}
+.time{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: -7px;
+    width: 100%;
+    font-weight: normal;
+    font-size: 13px;
+}
+h6{
+    margin-top: 3px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.fa-step-backward, .fa-step-forward {
+     transform: scale(1.4,1); 
+    }
+
+#play{
+    background: #b6ccf0;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+#play.dark-mode{
+    background-color: #222831;
+}
+.fa-play{
+    transform: translateX(1.5px);
+}
+input[type=checkbox]{
+    -webkit-appearance: none;
+    visibility: hidden;
+    display: none;
+}
+.check {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 20px;
+    left: 100%;
+    top: 90%;
+    background-color: rgb(51, 42, 28);
+    border-radius: 10px;
+    cursor: pointer;
+}
+.check.dark-mode{
+    background-color: #b6ccf0;
+}
+.dark-mode.check::before{
+    background: rgb(85, 109, 109);
+    transform: translateX(20px);
+    transition: 0.5s;
+}
+.check::before{
+    content: '';
+    background: rgb(204, 199, 199);
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: 0.5s;
+}
